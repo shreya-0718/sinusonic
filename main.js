@@ -10,7 +10,8 @@ const audioCtx = new AudioContext();
 const gainNode = audioCtx.createGain();
 
 // color variables
-const colorpicker = document.getElementById("color");
+const colorpicker1 = document.getElementById("color1");
+const colorpicker2 = document.getElementById("color2");
 
 // create Oscillator node
 const oscillator = audioCtx.createOscillator();
@@ -105,8 +106,14 @@ function drawWave(){
 function line() {
     y = height/2 + (amplitude * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
     
+    const gradient = ctx.createLinearGradient(0, 0, width, 0);
+    gradient.addColorStop(0, colorpicker1.value);
+    gradient.addColorStop(1, colorpicker2.value);
+
+    ctx.strokeStyle = gradient;
+    ctx.lineStyle = "solid";
+
     ctx.lineTo(x, y);
-    ctx.strokeStyle = colorpicker.value;
     
     ctx.stroke();
     x += 1;
