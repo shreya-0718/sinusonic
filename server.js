@@ -7,12 +7,12 @@ app.use(cors());
 
 let messages = [];
 
-// Homepage route
+// Homepage route (to prevent "Cannot GET /")
 app.get("/", (req, res) => {
     res.send("Welcome to the Sinusonic Message Server!");
 });
 
-// Send a new message
+// Send message API
 app.post('/send-message', (req, res) => {
     const { nickname, message } = req.body;
     if (!nickname || !message) {
@@ -22,13 +22,13 @@ app.post('/send-message', (req, res) => {
     res.json({ success: true });
 });
 
-// Retrieve all messages
+// Get messages API
 app.get('/messages', (req, res) => {
     res.json(messages);
 });
 
-// Start the server
-const PORT = 3000;
+// Set the port dynamically for Codespaces
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

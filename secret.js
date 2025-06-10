@@ -1,44 +1,45 @@
-const CODESPACE_URL = "https://improved-chainsaw-7v569jjrpxv2q7w-3000.app.github.dev";  
+// Import Firebase functions
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore"; 
 
-document.getElementById("message-form").addEventListener("submit", async (event) => {
-    event.preventDefault(); 
+// Firebase configuration (replace with your Firebase details)
+const firebaseConfig = {
+  apiKey: "AIzaSyBqBwsi98NoqTeqpssVyIKgjF_jQ8-jXic",
+  authDomain: "sinusonic-8dcd9.firebaseapp.com",
+  projectId: "sinusonic-8dcd9",
+  storageBucket: "sinusonic-8dcd9.firebasestorage.app",
+  messagingSenderId: "1065090252987",
+  appId: "1:1065090252987:web:2ada53c708e561449fe99e",
+  measurementId: "G-METFS796MR"
+};
 
-    const nickname = document.getElementById("nickname").value;
-    const message = document.getElementById("message").value;
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);  // Firestore database
 
-    if (!nickname || !message) {
-        alert("Please enter both a nickname and a message.");
-        return;
-    }
-
+// Send message to Firebase
+async function sendMessage(nickname, message) {
     try {
-        const response = await fetch(`${CODESPACE_URL}/send-message`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nickname, message }),
-        });
+        console.log("Sending message to Firestore...");
+        const docRef = await addDoc(collection(db, "messages"), { nickname, message });
+        console.log("Message stored successfully with ID:", docRef.id); // Verify Firestore write
 
-        if (response.ok) {
-            alert("Message sent!");
-            loadMessages();
-        } else {
-            alert("Error sending message.");
-        }
+        alert("Message sent! 🚀");
+        loadMessages();
     } catch (error) {
-        console.error("Network error:", error);
-        alert("Could not connect to the server.");
+        console.error("Error sending message:", error);
     }
-});
+}
 
+// Load messages from Firebase
 async function loadMessages() {
     try {
-        const response = await fetch(`${CODESPACE_URL}/messages`);
-        const messages = await response.json();
-
+        const querySnapshot = await getDocs(collection(db, "messages"));
         const messagesList = document.getElementById("messages-list");
-        messagesList.innerHTML = "";
+       // messagesList.innerHTML = "";  // Clear list
 
-        messages.forEach(({ nickname, message }) => {
+        querySnapshot.forEach((doc) => {
+            const { nickname, message } = doc.data();
             const listItem = document.createElement("li");
             listItem.textContent = `${nickname}: ${message}`;
             messagesList.appendChild(listItem);
@@ -48,4 +49,20 @@ async function loadMessages() {
     }
 }
 
+// Attach event listener to form submission
+document.getElementById("message-form").addEventListener("submit", (event) => {
+    event.preventDefault();  // Stops page reload!
+
+    const nickname = document.getElementById("nickname").value;
+    const message = document.getElementById("message").value;
+
+    if (!nickname || !message) {
+        alert("Please enter both a nickname and a message.");
+        return;
+    }
+
+    sendMessage(nickname, message);
+});
+
+// Load messages when page loads
 loadMessages();
