@@ -1,12 +1,46 @@
 #canvas {
-   border: 5px solid black;
+   border: 5px solid whitesmoke;
    height: 500px;
    width: 1000px;
    margin-bottom: 2em;
+}
 
-   padding-left: 0;
-   padding-right: 0;
-   margin-left: auto;
-   margin-right: auto;
-   display: block;
+#container {
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   align-items: center; /* Centers items horizontally */
+   justify-content: center; /* Centers items vertically */
+   text-align: center;
+
+   color: white;
+   font-family: 'Courier New', Courier, monospace;
+   font-style: bold;
+}
+
+button {
+   background-color: lightgray;
+   color: black;
+   border: 3px solid whitesmoke;
+   font-family: "Trebuchet MS", Helvetica, sans-serif;
+   font-size: 1em;
+   font-weight: 200;
+
+}
+
+body {
+   background-color: #0d0d0d;
+}
+
+h1 {
+   font-size: 2em;
+   margin-bottom: 0.5em;
+}
+
+p {
+   font-size: 1.2em;
+   font-weight: 10;
+   margin-bottom: 1em;
+   font-style: bold;
 }
