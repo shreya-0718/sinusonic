@@ -38,6 +38,7 @@ notenames.set("F", 349.23);
 notenames.set("G", 392.00);
 notenames.set("A", 440.00);
 notenames.set("B", 493.88);
+notenames.set(" ", 0);
 
 // start song button
 const startSong = document.getElementById("submit");
@@ -85,7 +86,7 @@ function handle() {
 
     for (i = 0; i < input.value.length; i++) {
         if (!notenames.has(usernote[i])) {
-            alert("Please enter a valid note! (C, D, E, F, G, A, B)");
+            alert("Please enter a valid note! (C, D, E, F, G, A, B): " + usernote[i]);
             return;
         }
 
