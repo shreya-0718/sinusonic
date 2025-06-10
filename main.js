@@ -14,6 +14,7 @@ const oscillator = audioCtx.createOscillator();
 oscillator.connect(gainNode);
 gainNode.connect(audioCtx.destination);
 oscillator.type = "sine";
+var funct = "sine"; // default function type
 
 //define canvas variables
 var canvas = document.getElementById("canvas");
@@ -38,6 +39,9 @@ notenames.set("G", 392.00);
 notenames.set("A", 440.00);
 notenames.set("B", 493.88);
 
+// start song button
+const startSong = document.getElementById("submit");
+
 // color variables
 const colorpicker1 = document.getElementById("color1");
 const colorpicker2 = document.getElementById("color2");
@@ -48,13 +52,24 @@ const vol_slider = document.getElementById("vol-slider");
 // recording variables
 const recording_toggle = document.getElementById('record');
 
+// waveform selection buttons
+const sineB = document.getElementById("sine");
+const squareB = document.getElementById("square");
+const sawtoothB = document.getElementById("sawtooth");
+const triangleB = document.getElementById("triangle");
+
 function frequency(pitch) {
     freq = pitch / 10000;
     
+    startSong.innerHTML = "Submitted! Now enjoy 🎵";
     gainNode.gain.setValueAtTime(vol_slider.value, audioCtx.currentTime);
     setting = setInterval(() => {gainNode.gain.value = vol_slider.value}, 1);
     oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
-    setTimeout(() => { clearInterval(setting); gainNode.gain.value = 0; }, ((timepernote) - 30));
+
+    setTimeout(() => { 
+        clearInterval(setting); 
+        gainNode.gain.value = 0; 
+    }, ((timepernote) - 30));
 }
 
 function handle() {
@@ -84,7 +99,8 @@ function handle() {
             drawWave();
             j++;
         } else {
-            clearInterval(repeat)
+            startSong.innerHTML = "Submit your song 💃";
+            clearInterval(repeat);
         }
     }, timepernote)
 
@@ -112,8 +128,16 @@ function drawWave(){
 
 function line() {
     amplitude = vol_slider.value*.6; // adjust amplitude based on volume slider
-    y = height/2 + (amplitude * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
-    
+    if (funct === "sine") {
+        y = height/2 + (amplitude * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
+    } else if (funct === "square") {
+        y = height/2 + (amplitude * Math.sign(Math.sin(x * 2 * Math.PI * freq * (0.5 * length))));
+    } else if (funct === "sawtooth") {
+        y = height/2 + (amplitude * (2 * (x * freq * (0.5 * length) - Math.floor(0.5 + x * freq * (0.5 * length)))));
+    } else if (funct === "triangle") {
+        y = height/2 + (amplitude * (Math.asin(Math.sin(x * 2 * Math.PI * freq * (0.5 * length))) / Math.PI));
+    }
+
     const gradient = ctx.createLinearGradient(0, 0, width, 0);
     gradient.addColorStop(0, colorpicker1.value);
     gradient.addColorStop(1, colorpicker2.value);
@@ -130,6 +154,51 @@ function line() {
     if (counter > timepernote / 20) {
         clearInterval(interval);
     }
+}
+
+// shape editing functions
+function sine() {
+    oscillator.type = "sine";
+    funct = "sine";
+
+    // button text update
+    sineB.innerHTML = "Sine Wave 🎵";
+    squareB.innerHTML = "Square Wave 🟩";
+    sawtoothB.innerHTML = "Sawtooth Wave 🪚";
+    triangleB.innerHTML = "Triangle Wave 📐";
+}
+
+function square() {
+    oscillator.type = "square";
+    funct = "square";
+    
+    // button text update
+    sineB.innerHTML = "Sine Wave 🌊";
+    squareB.innerHTML = "Square Wave 🎵";
+    sawtoothB.innerHTML = "Sawtooth Wave 🪚";
+    triangleB.innerHTML = "Triangle Wave 📐";
+}
+
+function sawtooth() {
+    oscillator.type = "sawtooth";
+    funct = "sawtooth";
+
+    // button text update
+    sineB.innerHTML = "Sine Wave 🌊";
+    squareB.innerHTML = "Square Wave 🟩";
+    sawtoothB.innerHTML = "Sawtooth Wave 🎵";
+    triangleB.innerHTML = "Triangle Wave 📐";
+}
+
+function triangle() {
+    oscillator.type = "triangle";
+    funct = "triangle";
+
+    // button text update
+    sineB.innerHTML = "Sine Wave 🌊";
+    squareB.innerHTML = "Square Wave 🟩";
+    sawtoothB.innerHTML = "Sawtooth Wave 🪚";
+    triangleB.innerHTML = "Triangle Wave 🎵";
 }
 
 // set up audio recording
@@ -178,4 +247,9 @@ function toggle(){
         recording_toggle.innerHTML = " Start Recording 🎙️ ";
         recorder.stop();
     }
+}
+
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
 }

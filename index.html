@@ -2,31 +2,69 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title> Sinusonic 🎶 </title>
+    <title> 🎶 Sinusonic </title>
     <link href="style.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="container"> 
     
         <h1> 🎼 Sinusonic 🎶 </h1>
-        <p> A simple little whimsical website where you can turn music into math! 🎵💃✨ </p>
+        <p> A simple, whimsical website where you can turn <i> music </i> into <i> math </i>! 🎵💃✨ </p>
+        
+        <span style="display: inline-flex; gap: 8px; align-items: center;">
+            <p> Click this emoji to learn more: </p>
+            
+            <div class="popup" onclick="myFunction()"> ❤️
+            <span class="popuptext" id="myPopup"> 
+                Welcome to SINUSONIC! So, how do you use it? Well, it's simple. First, enter the notes
+                (like C, D, E, F, G, A, B) of your song in the input box below. 
+                Then, click the "Submit your song" button to visualize it! 🎶✨
+                You can also change the colors of the gradient, adjust the volume, and choose different waveform types.
+                Play with the settings to create your own unique sound art! 🎨🎧
+                If you want, you can also record your song by clicking the "Start Recording" button. 🎙️
+                It will download as a "recording.webm" file.
+                Scroll down to start! Happy music making! 🎵💖  
+            </span>
+            </div>
+        </span>
+
         <canvas id="canvas"> </canvas>
 
         <input type="text" id="input">
-        <button id="submit" onclick="handle()"> Submit your song 💃 </button>
+        <button id="submit"> Submit your song 💃 </button>
 
         <label for="color1"> Gradient Color Picking! 🎨🖌️ </label>
 
-        <input type="color" id="color1" value="#fe5d9f">
-        <input type="color" id="color2" value="#42a5f5">
+        <span style="display: inline-flex; gap: 8px; align-items: center;">
+            <input type="color" id="color1" value="#fe5d9f">
+            <input type="color" id="color2" value="#42a5f5">
+        </span>
 
         <label for="vol-slider" style="margin-right: 8px;">volume control! 🎧</label>
         <input type="range" min="0" max="100" value="100" id="vol-slider">
 
-        <button id="record" onclick="toggle()"> Start Recording 🎙️ </button>
+        <button id="record"> Start Recording 🎙️ </button>
+
+        <label for="sine"> Type of Waveform 🕺</label>
+        <span style="display: inline-flex; gap: 8px; align-items: center;">
+            <button id="sine"> Sine Wave 🎵 </button>
+            <button id="square"> Square Wave 🟩 </button>
+            <button id="sawtooth"> Sawtooth Wave 🪚 </button>
+            <button id="triangle"> Triangle Wave 📐 </button>
+
+        </span>
 
     </div>
 
     <script src="main.js"></script>
+    <script>
+        // Attach event listeners after DOM is loaded
+        document.getElementById('submit').addEventListener('click', handle);
+        document.getElementById('record').addEventListener('click', toggle);
+        document.getElementById('sine').addEventListener('click', sine);
+        document.getElementById('square').addEventListener('click', square);
+        document.getElementById('sawtooth').addEventListener('click', sawtooth);
+        document.getElementById('triangle').addEventListener('click', triangle);
+    </script>
 </body>
 </html>
