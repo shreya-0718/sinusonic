@@ -9,10 +9,6 @@ var reset = false;
 const audioCtx = new AudioContext();
 const gainNode = audioCtx.createGain();
 
-// color variables
-const colorpicker1 = document.getElementById("color1");
-const colorpicker2 = document.getElementById("color2");
-
 // create Oscillator node
 const oscillator = audioCtx.createOscillator();
 oscillator.connect(gainNode);
@@ -42,12 +38,20 @@ notenames.set("G", 392.00);
 notenames.set("A", 440.00);
 notenames.set("B", 493.88);
 
+// color variables
+const colorpicker1 = document.getElementById("color1");
+const colorpicker2 = document.getElementById("color2");
+
+// volume control variables
+const vol_slider = document.getElementById("vol-slider");
+
 function frequency(pitch) {
     freq = pitch / 10000;
-    gainNode.gain.setValueAtTime(100, audioCtx.currentTime);
+    
+    gainNode.gain.setValueAtTime(vol_slider.value, audioCtx.currentTime);
+    setting = setInterval(() => {gainNode.gain.value = vol_slider.value}, 1);
     oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime + (timepernote / 1000) - 0.1);
-
+    setTimeout(() => { clearInterval(setting); gainNode.gain.value = 0; }, ((timepernote) - 30));
 }
 
 function handle() {
@@ -63,7 +67,7 @@ function handle() {
 
     for (i = 0; i < input.value.length; i++) {
         if (!notenames.has(usernote[i])) {
-            alert("Please enter a valid note (C, D, E, F, G, A, B)");
+            alert("Please enter a valid note! (C, D, E, F, G, A, B)");
             return;
         }
 
@@ -73,9 +77,9 @@ function handle() {
     let j = 0;
     repeat = setInterval(() => {
         if (j < noteslist.length) {
-           frequency(noteslist[j]);
-           drawWave();
-        j++
+            frequency(noteslist[j]);
+            drawWave();
+            j++;
         } else {
             clearInterval(repeat)
         }
@@ -104,6 +108,7 @@ function drawWave(){
 }
 
 function line() {
+    amplitude = vol_slider.value; // adjust amplitude based on volume slider
     y = height/2 + (amplitude * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
     
     const gradient = ctx.createLinearGradient(0, 0, width, 0);
