@@ -21,6 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
 console.log("✅ Firebase Connected!"); 
 
@@ -28,79 +29,70 @@ const nameInput = document.getElementById("nickname");
 const msgInput = document.getElementById("message");
 
 const sendButton = document.getElementById("send-button");
-const loadButton = document.getElementById("load-messages");
 
 const messagesList = document.getElementById("messages-list");
 
+sendButton.onclick = async function () {
 
-async function sendMessage() {
+    event.preventDefault();
 
-    nname = nameInput.value.trim();
-    msg = msgInput.value.trim();
+    console.log("📩 Sending message...");
+
+    const nname = nameInput.value;
+    const msg = msgInput.value;
 
     try {
-        const addTo = await addDoc(collection(db, "messages"), { 
-            nickname: nname, 
+        await addDoc(collection(db, "messages"), { 
+            nickname: nname,
             message: msg 
         });
+
         console.log("✅ Message stored in Firebase!");
-        alert("Message sent! 🚀");
+        console.log("Message sent! 🚀");
+        nameInput.value = ""; // Clear the nickname input
+        msgInput.value = ""; // Clear the message input
         loadMessages(); // Refresh the message list
     } catch (error) {  
-        alert("Error sending message:", error);
+        console.log("Error sending message:", error);
     }
 }
 
-loadButton.onclick = async function loadMessages() {
-    loadButton.innerHTML = "Loading 🕺";
+
+async function loadMessages() {
 
     try {
         console.log("📡 Fetching messages from Firebase...");
         const querySnapshot = await getDocs(collection(db, "messages"));
-        console.log(querySnapshot);
 
-        const temporary = document.createElement("p");
-        temporary.innerHTML = querySnapshot.size + " messages loaded.";
-
-        /*
+        console.log(querySnapshot.size + " messages loaded.");
+        
         querySnapshot.forEach((doc) => {
             const { nickname, message } = doc.data();
-            const messageElement = document.createElement("p");
-            messageElement.innerHTML = `<strong>${nickname}</strong>: ${message}`;
-
-            //messagesList.appendChild(messageElement);
+            const messageElement = document.createElement('p');
+            messageElement.innerHTML = `<strong>${nickname}</strong>: <normal>${message}<normal>`;
+            messagesList.appendChild(messageElement);
         });
-        */
+        
 
         console.log("✅ Messages loaded!");
 
     } catch (error) {
         console.log("Error loading messages:", error);
     }
-
-    return "good";
 }
 
-document.getElementById("load-messages").onclick = async function() { 
-    try { 
-        const response = await fetch('https://api.example.com/data'); 
-        const data = await response.json(); 
-        console.log(data); 
-    } catch (error) { 
-        console.error('Error fetching data:', error); 
-    } 
-};
-
+/*
 document.getElementById("message-form").addEventListener("submit", (event) => {
     event.preventDefault();  // Prevent page reload
     console.log("📩 Form submitted!");
 
+    const nickname = nameInput.value;
+    const message = msgInput.value;
+
     if (nickname && message) {
-        sendMessage(nickname, message);
+        sendButton.onclick(); // Use the sendButton's handler to send the message
     } else {
         alert("Please enter both a nickname and a message.");
     }
 });
-
-// Load messages when the page loads
-//loadMessages(); 
+*/

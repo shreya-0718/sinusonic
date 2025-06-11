@@ -41,7 +41,6 @@ h1 {
 p {
    font-size: 1.2em;
    font-weight: bold;
-   margin: 0.1em;
 }
 
 /* Popup container - can be anything you want */
@@ -131,6 +130,18 @@ a:active {
 
 input[type="text"] {
    width: 150px;
+   padding: 10px;
+   margin: 8px 0;
+   box-sizing: border-box;
+   border: 2px solid #ccc;
+   border-radius: 4px;
+   font-family: 'Courier New', Courier, monospace;
+   font-size: .8em;
+}
+
+textarea {
+   width: 200px;
+   height: 100px;
    padding: 10px;
    margin: 8px 0;
    box-sizing: border-box;
