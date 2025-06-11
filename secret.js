@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/dist/index.mjs";
+import { initializeApp } from "firebase/app";
 import { getAnalytics } from "./node_modules/firebase/analytics";
 import { getFirestore } from "./node_modules/firebase/firestore";
 import { collection, addDoc, getDocs } from "./node_modules/firebase/firestore"; 
@@ -12,7 +12,7 @@ import { collection, addDoc, getDocs } from "./node_modules/firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBqBwsi98NoqTeqpssVyIKgjF_jQ8-jXic",
   authDomain: "sinusonic-8dcd9.firebaseapp.com",
-  projectId: "sinusonic-8dcd9",
+  projectId: "sinusonic-8dcd9", 
   storageBucket: "sinusonic-8dcd9.firebasestorage.app",
   messagingSenderId: "1065090252987",
   appId: "1:1065090252987:web:2ada53c708e561449fe99e",
