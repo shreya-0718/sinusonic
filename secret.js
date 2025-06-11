@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "./node_modules/firebase-app";
+import { initializeApp } from "firebase/dist/index.mjs";
 import { getAnalytics } from "./node_modules/firebase/analytics";
 import { getFirestore } from "./node_modules/firebase/firestore";
 import { collection, addDoc, getDocs } from "./node_modules/firebase/firestore"; 
