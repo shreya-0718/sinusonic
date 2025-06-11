@@ -34,7 +34,7 @@
         <canvas id="canvas"> </canvas>
 
         <input type="text" id="input">
-        <button id="submit"> Submit your song 💃 </button>
+        <button id="submit" onclick="handle()"> Submit your song 💃 </button>
 
         <label for="color1"> Gradient Color Picking! 🎨🖌️ </label>
 
@@ -46,27 +46,17 @@
         <label for="vol-slider" style="margin-right: 8px;">volume control! 🎧</label>
         <input type="range" min="0" max="100" value="100" id="vol-slider">
 
-        <button id="record"> Start Recording 🎙️ </button>
+        <button id="record" onclick="toggle()"> Start Recording 🎙️ </button>
 
         <label for="sine"> Type of Waveform 🕺</label>
         <span style="display: inline-flex; gap: 8px; align-items: center;">
-            <button id="sine"> Sine Wave 🎵 </button>
-            <button id="square"> Square Wave 🟩 </button>
-            <button id="sawtooth"> Sawtooth Wave 🪚 </button>
-            <button id="triangle"> Triangle Wave 📐 </button>
+            <button id="sine" onclick="sine()"> Sine Wave 🎵 </button>
+            <button id="square" onclick="square()"> Square Wave 🟩 </button>
+            <button id="sawtooth" onclick="sawtooth()"> Sawtooth Wave 🪚 </button>
+            <button id="triangle" onclick="triangle()"> Triangle Wave 📐 </button>
         </span>
 
     </div>
-
-    <script>
-        // Attach event listeners after DOM is loaded
-        document.getElementById('submit').addEventListener('click', handle);
-        document.getElementById('record').addEventListener('click', toggle);
-        document.getElementById('sine').addEventListener('click', sine);
-        document.getElementById('square').addEventListener('click', square);
-        document.getElementById('sawtooth').addEventListener('click', sawtooth);
-        document.getElementById('triangle').addEventListener('click', triangle);
-    </script>
 
     <script src="main.js"></script>
 </body>

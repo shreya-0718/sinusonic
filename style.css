@@ -129,7 +129,7 @@ a:active {
    text-decoration: none;
 }
 
-input {
+input[type="text"] {
    width: 150px;
    padding: 10px;
    margin: 8px 0;

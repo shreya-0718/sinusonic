@@ -62,7 +62,6 @@ const triangleB = document.getElementById("triangle");
 function frequency(pitch) {
     freq = pitch / 10000;
     
-    startSong.innerHTML = "Submitted! Now enjoy 🎵";
     gainNode.gain.setValueAtTime(vol_slider.value, audioCtx.currentTime);
     setting = setInterval(() => {gainNode.gain.value = vol_slider.value}, 1);
     oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
@@ -75,6 +74,8 @@ function frequency(pitch) {
 
 function handle() {
     reset = true;
+    startSong.disabled = true;
+    startSong.innerHTML = "Submitted! Now enjoy 🎵";
     audioCtx.resume();
     gainNode.gain.value = 0;
 
@@ -101,6 +102,7 @@ function handle() {
             j++;
         } else {
             startSong.innerHTML = "Submit your song 💃";
+            startSong.disabled = false;
             clearInterval(repeat);
         }
     }, timepernote)
